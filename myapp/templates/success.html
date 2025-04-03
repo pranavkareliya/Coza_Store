@@ -1,0 +1,85 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Success</title>
+    <style>
+        body{
+            background-color: lightgray;
+        }
+        
+        .view_box {
+            margin: 1px auto;
+            position: relative;
+            left: 48%;
+            right: 0;
+            width: 4rem;
+            height: 4rem;
+            color: #16ad4a;
+        }
+
+        .payment_done {
+            font-size: 1rem;
+            line-height: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            color: #111827;
+        }
+
+        .thanking_msg {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #4B5563;
+        }
+
+        .go_back_btn {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            padding-left: 3rem;
+            padding-right: 3rem;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4F46E5;
+        }
+
+        .go_back_btn:hover {
+            background-color: #6366F1;
+            color: #ffffff;
+        }
+
+        @media (min-width: 768px) {
+            .payment_done {
+                font-size: 1.5rem;
+                line-height: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin: 10px 0;">
+        <div style="padding: 1.5rem;">
+            <svg viewBox="0 0 24 24" class="view_box">
+                <path fill="currentColor"
+                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
+                </path>
+            </svg>
+            <div style="text-align: center;">
+                <h3 class="payment_done">Payment Done!</h3>
+                <p class="thanking_msg">Thank you for completing your secure online payment.</p>
+                <p> Have a great day! </p>
+                <div style="padding-top: 2.5rem;padding-bottom: 2.5rem;text-align: center;">
+                    <a href="/" class="go_back_btn">
+                        GO BACK
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}

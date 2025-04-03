@@ -1,0 +1,205 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Orders</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/myorders.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}"> -->
+</head>
+
+<body>
+    <div class="container mt-3 mt-md-5">
+        <h2 class="text-charcoal hidden-sm-down" style="font-size: 22px;margin-bottom: 10px;font-weight: 700;">Your Orders</h2>
+        <div class="row">
+            <div class="col-12">
+                <div class="list-group mb-5">
+                    <div class="list-group-item p-3 bg-snow" style="position: relative;">
+                        <div class="row w-100 no-gutters">
+                            <div class="col-6 col-md mr-5">
+                                <h6 class="text-charcoal mb-0 w-100">User Email</h6>
+                                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{ request.session.email }}</p>
+                            </div>
+                            <div class="col-6 col-md">
+                                <h6 class="text-charcoal mb-0 w-100">User Name</h6>
+                                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{ user.fname }} {{ user.lname }}</p>
+                            </div>
+                            <div class="col-6 col-md">
+                                <h6 class="text-charcoal mb-0 w-100">Mobile</h6>
+                                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{ user.mobile }}</p>
+                            </div>
+                            <div class="col-6 col-md">
+                                <h6 class="text-charcoal mb-0 w-100">Shipped To</h6>
+                                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{ user.address }}</p>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <a href="{% url 'product' %}" class="btn btn-primary w-100">Go To Shop</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Product Details -->
+                    <div class="list-group-item p-3 bg-white" style="display: flex;justify-content: center;align-items: center;">
+                        <div class="row no-gutters">
+                            {% for i in carts %}
+                            <div class="row no-gutters mt-3">
+                                <div class="col-3 col-md-2 ml-5">
+                                    <img class="img-fluid pr-3" src="{{ i.product.product_picture.url }}" alt="This is product Details">
+                                </div>
+                                <div class="col-9 col-md-8 pr-0 pr-md-3">
+                                    <h6 class="text-charcoal mb-2 mb-md-1 mt-2">
+                                        <p class="text-charcoal">{{ i.product_qty }} x {{ i.product.product_name }}
+                                        </p>
+                                    </h6>
+                                    <ul class="list-unstyled text-pebble mb-2" style="font-size: 14px;">
+                                        <li>
+                                            <b>Price : </b> ₹ {{ i.product.product_price }}
+                                        </li>
+                                        <li>
+                                            <b>Size : </b> 
+                                            {% if i.product.product_size == 's' %}
+                                                Small (S)
+                                            {% elif i.product.product_size == 'm' %}
+                                                Medium (M)
+                                            {% elif i.product.product_size == 'm' %}
+                                                Large (L)
+                                            {% elif i.product.product_size == 'm' %}
+                                                Extra Large (XL)
+                                            {% elif i.product.product_size == 'm' %}
+                                                Extra Extra Large (XXL)
+                                            {% endif %}
+                                        </li>
+                                        <li>
+                                            <b>Total Price : </b> ₹ {{ i.total_price }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- order summary -->
+                        <div class="col-12 col-md-4">
+                            <div class="pt-5 pt-md-0">
+                                <div class="list-group mb-3">
+                                    <div class="list-group-item p-3 bg-snow">
+                                        <h6 class="mb-0">Order Summary</h6>
+                                    </div>
+                                    <div class="list-group-item py-2 px-3 bg-white">
+                                        <div class="row w-100 no-gutters">
+                                            <div class="col-6 text-pebble">
+                                                Subtotal
+                                            </div>
+                                            <div class="col-6 text-right text-charcoal">
+                                                ₹ {{net_price}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item py-2 px-3 bg-white">
+                                        <div class="row w-100 no-gutters">
+                                            <div class="col-6 text-pebble">
+                                                Shipping
+                                            </div>
+                                            <div class="col-6 text-right text-charcoal">
+                                                FREE
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item py-2 px-3 bg-white">
+                                        <div class="row w-100 no-gutters">
+                                            <div class="col-8 text-pebble">
+                                                Gift certificate
+                                            </div>
+                                            <div class="col-4 text-right text-red text-charcoal">
+                                                - ₹ 0.00
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item py-2 px-3 bg-snow">
+                                        <div class="row w-100 no-gutters">
+                                            <div class="col-8 text-charcoal">
+                                                <b>Total</b>
+                                            </div>
+                                            <div class="col-4 text-right text-green">
+                                                <b>₹ {{ net_price }}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- order summary - External -->
+            <!-- <div class="col-12 col-md-4">
+                <div class="pt-5 pt-md-0">
+                    <div class="list-group mb-3">
+                        <div class="list-group-item p-3 bg-snow">
+                            <h6 class="mb-0">Order Summary</h6>
+                        </div>
+                        <div class="list-group-item py-2 px-3 bg-white">
+                            <div class="row w-100 no-gutters">
+                                <div class="col-6 text-pebble">
+                                    Subtotal
+                                </div>
+                                <div class="col-6 text-right text-charcoal">
+                                    ₹ 54.97
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item py-2 px-3 bg-white">
+                            <div class="row w-100 no-gutters">
+                                <div class="col-6 text-pebble">
+                                    Sales Tax
+                                </div>
+                                <div class="col-6 text-right text-charcoal">
+                                    ₹ 4.30
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item py-2 px-3 bg-white">
+                            <div class="row w-100 no-gutters">
+                                <div class="col-6 text-pebble">
+                                    Shipping
+                                </div>
+                                <div class="col-6 text-right text-charcoal">
+                                    FREE
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item py-2 px-3 bg-white">
+                            <div class="row w-100 no-gutters">
+                                <div class="col-8 text-pebble">
+                                    Gift certificate
+                                </div>
+                                <div class="col-4 text-right text-red text-charcoal">
+                                    -₹ 5.55
+                                </div>
+                            </div>
+                        </div>
+                        <div class="list-group-item py-2 px-3 bg-snow">
+                            <div class="row w-100 no-gutters">
+                                <div class="col-8 text-charcoal">
+                                    <b>Total</b>
+                                </div>
+                                <div class="col-4 text-right text-green">
+                                    <b>₹ 53.65</b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}
